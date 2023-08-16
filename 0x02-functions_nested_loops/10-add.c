@@ -1,21 +1,13 @@
+#include "main.h"
 #include <stdio.h>
 
 /**
- *main - task advanced
- *
- *Return: Always 0
+ *add - write a function that adds two int
+ *@a: num to be use
+ *@b: num to be use
+ *Return: always 0 (Sucess)
  */
-int main(void)
+int add(int a, int b)
 {
-	int i;
-	int sum;
-
-	sum = 0;
-	for (i = 0; i < 1024; i++)
-	{
-		if (i % 3 == 0 || i % 5 == 0)
-			sum += i;
-	}
-		printf("%d\n", sum);
-		return (0);
+	return (a + b);
 }
