@@ -1,53 +1,30 @@
-#include "main.h"
-#include <stdio.h>
-
-int _sqrt_recursion_helper(int n, int start, int end)
+int _find_sqrt(int prev, int find);
 /**
- * _sqrt_recursion - function that return square root
- * @n: num to be sqare root
- * Return: the square root
+ * _sqrt_recursion - finds square root of n, recursively
+ *
+ * @n: int to find sqroot from
+ *
+ * Return: sqroot, -1 if no natural sqroot for n
  */
-
 int _sqrt_recursion(int n)
 {
-	if (n < 0)
-	{
+	if (n <= 0) /* error case */
 		return (-1);
-	}
-	if (n == 0 || n == 1)
-	{
-		return (n);
-	}
-	return (_sqrt_recursion_helper(n, 1, n));
-
+	return (_find_sqrt(1, n));
 }
-
 /**
- * _sqrt_recursion_helper - function that perform the recursion
- * @n: The number to square
- * @start: the start of the range to search for the square root
- * @end: the end of the range to search for the square root
- * Return: the square root
+ * _find_sqrt - finds square root recursively, needs prev param
+ *
+ * @prev: previous result of function
+ * @find: constant int to find sq root for
+ *
+ * Return: square root of find, or -1 if not found
  */
-
-int _sqrt_recursion_helper(int n, int start, int end)
+int _find_sqrt(int prev, int find)
 {
-	if (start > end)
-	{
-		return (end);
-	}
-	int mid = (start + end) / 2;
-
-	if (mid * mid < n)
-	{
-		return (mid);
-	}
-	if (mid * mid < n)
-	{
-		return (_sqrt_recursion_helper(n, mid + 1, end));
-	}
-	else
-	{
-		return (_sqrt_recursion_helper(n, start, mid - 1));
-	}
+	if (prev > find) /* didn't find a nr, there was remainder */
+		return (-1);
+	if (prev * prev == find) /* natural root found */
+		return (prev);
+	return (_find_sqrt(prev + 1, find)); /* not super efficient */
 }
