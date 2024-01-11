@@ -1,40 +1,52 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * delete_dnodeint_at_index - inserts a node at position
- * in a doubly linked list
- * @h: double pointer to the head, so we can modify if needed
- * @index: index to insert new node at
+ * delete_dnodeint_at_index - deletes the node at index of a
+ * dlistint_t linked list
  *
- * Return: 1 (success), -1 (failure)
+ * @head: head of the list
+ * @index: index of the new node
+ * Return: 1 if it succeeded, -1 if it failed
  */
-int delete_dnodeint_at_index(dlistint_t **h, unsigned int index)
+int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	dlistint_t *temp = NULL;
-	unsigned int i = 0;
+	dlistint_t *h1;
+	dlistint_t *h2;
+	unsigned int i;
 
-	if (!h || !(*h)) /* NULL DLL */
+	h1 = *head;
+
+	if (h1 != NULL)
+		while (h1->prev != NULL)
+			h1 = h1->prev;
+
+	i = 0;
+
+	while (h1 != NULL)
 	{
-		return (-1);
+		if (i == index)
+		{
+			if (i == 0)
+			{
+				*head = h1->next;
+				if (*head != NULL)
+					(*head)->prev = NULL;
+			}
+			else
+			{
+				h2->next = h1->next;
+
+				if (h1->next != NULL)
+					h1->next->prev = h2;
+			}
+
+			free(h1);
+			return (1);
+		}
+		h2 = h1;
+		h1 = h1->next;
+		i++;
 	}
-	else /* DLL exists */
-	{
-		temp = *h;
-		/* advance to pos of idx in DLL */
-		while (index != i++ && temp)
-			temp = temp->next;
-		if (!temp) /* end of DLL */
-			return (-1);
-		if (temp->next)
-			temp->next->prev = temp->prev;
-		if (index == 0) /* delete at head */
-			*h = temp->next;
-		else
-			temp->prev->next = temp->next;
-		free(temp);
-		return (1);
-	}
-	/* should never happen, here for compiler */
+
 	return (-1);
 }

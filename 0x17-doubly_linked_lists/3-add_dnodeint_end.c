@@ -1,59 +1,39 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * create_lnode - creates a new DLL node with data
- * @n: data to add to node
+ * add_dnodeint_end - adds a new node at the end
+ * of a dlistint_t list
  *
- * Return: pointer to newly allocated/populated node
- */
-dlistint_t *create_lnode(const int n)
-{
-	dlistint_t *new_node = NULL;
-
-	new_node = malloc(sizeof(dlistint_t));
-	if (!new_node)
-		return (NULL);
-
-	new_node->next = NULL;
-	new_node->prev = NULL;
-	new_node->n = n;
-
-	return (new_node);
-}
-
-/**
- * add_dnodeint_end - adds a node to the end of a doubly linked
- * list
- * @head: double pointer to the head, so we can modify if needed
- * @n: data to add to new node
- *
- * Return: pointer to new element, NULL on failure.
+ * @head: head of the list
+ * @n: value of the element
+ * Return: the address of the new element
  */
 dlistint_t *add_dnodeint_end(dlistint_t **head, const int n)
 {
-	dlistint_t *new_node = NULL, *temp = NULL;
+	dlistint_t *h;
+	dlistint_t *new;
 
-	new_node = create_lnode(n);
-	if (!new_node)
+	new = malloc(sizeof(dlistint_t));
+	if (new == NULL)
 		return (NULL);
 
-	if (!head || !(*head)) /* NULL DLL */
-	{
-		*head = new_node;
-		return (new_node);
-	}
-	else /* DLL exists */
-	{
-		temp = *head;
-		while (temp->next) /* advance to end of DLL */
-			temp = temp->next;
+	new->n = n;
+	new->next = NULL;
 
-		new_node->prev = temp;
-		temp->next = new_node;
+	h = *head;
 
-		return (new_node);
+	if (h != NULL)
+	{
+		while (h->next != NULL)
+			h = h->next;
+		h->next = new;
 	}
-	/* should never happen, here for compiler */
-	return (NULL);
+	else
+	{
+		*head = new;
+	}
+
+	new->prev = h;
+
+	return (new);
 }
